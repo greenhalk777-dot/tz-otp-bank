@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<!-- saved from url=(0044)https://www.genspark.ai/api/files/s/abKfTcxh -->
+<html lang="uk" data-theme="light" style=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Технічне завдання - Інтеграція ОТП Банк</title>
+    <link rel="stylesheet" href="./Технічне завдання - Інтеграція ОТП Банк_files/pico.min.css">
+    <link href="./Технічне завдання - Інтеграція ОТП Банк_files/css2" rel="stylesheet">
+    <style>
+      /* Document Setup */
+      body {
+        font-family: 'Times New Roman', Times, serif;
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 40px 80px;
+        background-color: #ffffff;
+        color: #000000;
+        line-height: 1.5;
+        font-size: 12pt;
+      }
+
+      /* Typography Override for Pico */
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: 'Times New Roman', Times, serif;
+        color: #000000;
+        margin-bottom: 0.5em;
+        --font-weight: bold;
+      }
+
+      h1 {
+        font-size: 18pt;
+        text-align: center;
+        text-transform: uppercase;
+        margin-top: 0;
+        margin-bottom: 24pt;
+      }
+
+      h2 {
+        font-size: 14pt;
+        border-bottom: 1px solid #000;
+        padding-bottom: 6px;
+        margin-top: 24pt;
+        text-transform: uppercase;
+      }
+
+      h3 {
+        font-size: 13pt;
+        margin-top: 18pt;
+        text-decoration: underline;
+      }
+
+      p {
+        margin-bottom: 12pt;
+        text-align: justify;
+      }
+
+      ul,
+      ol {
+        margin-bottom: 12pt;
+      }
+
+      li {
+        margin-bottom: 6pt;
+      }
+
+      /* Table Styling */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 18pt 0;
+        font-size: 11pt;
+      }
+
+      th,
+      td {
+        border: 1px solid #000;
+        padding: 8px 12px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        background-color: #f0f0f0;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      /* Utility Classes */
+      .text-center {
+        text-align: center;
+      }
+      .bold {
+        font-weight: bold;
+      }
+      .italic {
+        font-style: italic;
+      }
+
+      .project-title {
+        text-align: center;
+        font-size: 16pt;
+        font-weight: bold;
+        margin-bottom: 48pt;
+      }
+
+      .meta-info {
+        margin-bottom: 24pt;
+      }
+
+      .code-ref {
+        font-family: 'Courier New', Courier, monospace;
+        background-color: #f5f5f5;
+        padding: 2px 4px;
+        font-size: 10pt;
+      }
+
+      /* Screenshot Styling */
+      .screenshot-container {
+        margin: 24pt 0;
+        padding: 12pt;
+        border: 1px solid #ccc;
+        background-color: #fafafa;
+      }
+
+      .screenshot-container img {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        border: 1px solid #999;
+        margin: 8pt 0;
+        cursor: zoom-in;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+        transition: transform 0.3s ease;
+      }
+
+      .screenshot-container img:hover {
+        transform: scale(1.02);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      }
+
+      .screenshot-container img:active {
+        cursor: zoom-out;
+      }
+
+      /* Lightbox for full-size image viewing */
+      .img-lightbox {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        cursor: zoom-out;
+      }
+
+      .img-lightbox img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 95%;
+        max-height: 95%;
+        object-fit: contain;
+        border: 2px solid white;
+      }
+
+      .img-lightbox:target {
+        display: block;
+      }
+
+      .screenshot-title {
+        font-weight: bold;
+        font-size: 11pt;
+        margin-bottom: 6pt;
+        color: #333;
+      }
+
+      .screenshot-description {
+        font-size: 10pt;
+        font-style: italic;
+        color: #666;
+        margin-top: 6pt;
+        text-align: left;
+      }
+    </style>
+    <script>
+      // Script to open images in full size on click
+      document.addEventListener('DOMContentLoaded', function() {
+        const images = document.querySelectorAll('.screenshot-container img');
+        
+        images.forEach(function(img) {
+          img.style.cursor = 'zoom-in';
+          
+          img.addEventListener('click', function() {
+            // Create lightbox overlay
+            const lightbox = document.createElement('div');
+            lightbox.className = 'img-lightbox';
+            lightbox.style.display = 'block';
+            
+            // Create full-size image
+            const fullImg = document.createElement('img');
+            fullImg.src = this.src;
+            fullImg.alt = this.alt;
+            
+            lightbox.appendChild(fullImg);
+            document.body.appendChild(lightbox);
+            
+            // Close on click
+            lightbox.addEventListener('click', function() {
+              document.body.removeChild(lightbox);
+            });
+            
+            // Close on Escape key
+            document.addEventListener('keydown', function(e) {
+              if (e.key === 'Escape' && document.querySelector('.img-lightbox')) {
+                const lb = document.querySelector('.img-lightbox');
+                if (lb) document.body.removeChild(lb);
+              }
+            });
+          });
+        });
+      });
+    </script>
+  </head>
+  <body style="">
+    <h1>ТЕХНІЧНЕ ЗАВДАННЯ</h1>
+
+    <div class="project-title">Назва проєкту: "Інтеграція системи 1С КУП з інтернет-банкінгом ОТП Банку"</div>
+
+    <div class="meta-info">
+      <p><span class="bold">Дата складання:</span> 04 лютого 2026 р.</p>
+      <p><span class="bold">Замовник:</span> Бухгалтерія / Фінансовий відділ</p>
+      <p><span class="bold">Виконавець:</span> Відділ розробки 1С</p>
+    </div>
+
+    <h2>1. Загальна інформація</h2>
+    <p>
+      В системі "1С: КУП" ведеться облік по декільком організаціям. Для цілей управлінського обліку виділено дві
+      "Управлінські" (УПР) організації. Всі банківські рахунки Бухгалтерських (БУ) організацій продубльовані в системі
+      як банківські рахунки УПР організацій.
+    </p>
+    <p>
+      Обмін даними з банком налаштовується виключно в розрізі УПР організацій. Зв'язок між реальними рахунками БУ та
+      віртуальними рахунками УПР забезпечується через спеціальні реквізити в довіднику банківських рахунків.
+    </p>
+
+    <h2>2. Мета проєкту</h2>
+    <p>
+      Метою проєкту є автоматизація обміну платіжними документами та інформацією про рух грошових коштів між обліковою
+      системою 1С та сервісом інтернет-банкінгу ОТП Банку через API.
+    </p>
+    <p>Основні задачі:</p>
+    <ul>
+      <li>Автоматизація імпорту та експорту платіжних доручень.</li>
+      <li>Завантаження фактичних залишків на рахунках на кінець дня.</li>
+      <li>Отримання оперативних залишків на рахунках в режимі реального часу.</li>
+    </ul>
+    <p>
+      Офіційний опис методів API доступний за посиланням: <br>
+      <a href="https://otpay.com.ua/ifobsClientSMB/LoginShow.action">https://otpay.com.ua/ifobsClientSMB/LoginShow.action</a>
+    </p>
+
+    <div class="screenshot-container">
+      <div class="screenshot-title">Рисунок 1: Інтерфейс входу в систему Click OTPay (Корисна інформація)</div>
+      <img src="./Технічне завдання - Інтеграція ОТП Банк_files/sV44ePxj" alt="Вікно входу Click OTPay з корисними посиланнями" style="cursor: zoom-in;" data-height-listener-added="true">
+      <p class="screenshot-description">
+        Вікно "Корисна інформація" системи Click OTPay з посиланнями на відеоінструкції та документацію для встановлення драйверів USB-токенів та інших компонентів безпеки.
+      </p>
+    </div>
+
+    <h2>3. Архітектура рішення</h2>
+    <p>
+      Рішення реалізується на базі існуючої конфігурації 1С. Основним робочим місцем користувача є обробка
+      <span class="code-ref">Обработка.скКлиентБанк</span>. Налаштування зберігаються в довіднику
+      <span class="code-ref">Справочник.скДопНастройки</span>.
+    </p>
+
+    <h2>4. Технічні вимоги</h2>
+
+    <h3>4.1. Зміни в метаданих</h3>
+    <p>
+      Необхідно додати або використовувати існуючі реквізити в довіднику
+      <span class="code-ref">Справочник.БанковскиеСчетаОрганизаций</span> для зв'язку рахунків:
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Реквізит</th>
+          <th>Тип</th>
+          <th>Опис призначення</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Організація власник</td>
+          <td>Справочник.Организации</td>
+          <td>Посилання на юридичну особу (БУ організацію), якій фактично належить рахунок.</td>
+        </tr>
+        <tr>
+          <td>Завантажувати як оплата від іншої організації</td>
+          <td>Булево</td>
+          <td>Ознака, що платежі по цьому рахунку мають завантажуватись через механізм заміщення організації.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>4.2. Налаштування підключення (API)</h3>
+    <p>В обробці <span class="code-ref">Обработка.скКлиентБанк</span> на вкладці "Налаштування" -&gt; "API":</p>
+    <ul>
+      <li>Реалізувати можливість вибору банку "ОТП" зі списку доступних API.</li>
+      <li>
+        По кнопці "Заповнити налаштування АРІ" автоматично формувати список параметрів, необхідних для роботи з API ОТП
+        Банку.
+      </li>
+      <li>Налаштування повинні зберігатися в <span class="code-ref">Справочник.скДопНастройки</span>.</li>
+    </ul>
+
+    <div class="screenshot-container">
+      <div class="screenshot-title">Рисунок 2: Вкладка налаштування API з вибором банку</div>
+      <img src="./Технічне завдання - Інтеграція ОТП Банк_files/hOGPSyiS" alt="Налаштування API з вибором банку" style="cursor: zoom-in;" data-height-listener-added="true">
+      <p class="screenshot-description">
+        Інтерфейс налаштування API в обробці (СОФТКОМ) Клієнт-банк. Показано випадаючий список для вибору банку (Укрсиб, Приват тощо) з налаштуваннями організацій.
+      </p>
+    </div>
+
+    <div class="screenshot-container">
+      <div class="screenshot-title">Рисунок 3: Параметри API для Приват Банку</div>
+      <img src="./Технічне завдання - Інтеграція ОТП Банк_files/aqHgIsEt" alt="Параметри API Приват" style="cursor: zoom-in;" data-height-listener-added="true">
+      <p class="screenshot-description">
+        Детальний вигляд налаштувань API з таблицею параметрів (Сервер, РесурсПрефікс, id, token, ОрганизацияV3) для інтеграції з банком Приват.
+      </p>
+    </div>
+
+    <div class="screenshot-container">
+      <div class="screenshot-title">Рисунок 4: Параметри API для УкрСиб Банку</div>
+      <img src="./Технічне завдання - Інтеграція ОТП Банк_files/hUIcG2kG" alt="Параметри API УкрСиб" style="cursor: zoom-in;" data-height-listener-added="true">
+      <p class="screenshot-description">
+        Налаштування API для банку УкрСиб з параметрами автентифікації: Сервер, РесурсПрефікс, client_id, client_secret та ключі шифрування.
+      </p>
+    </div>
+
+    <h3>4.3. Авторизація користувачів</h3>
+    <p>Реалізувати механізм авторизації на вкладці "Користувачі Авторизації ОТП":</p>
+    <ul>
+      <li>Список користувачів 1С, для яких при відкритті обробки автоматично з'являтиметься вікно авторизації.</li>
+      <li>
+        Відсутність жорсткої прив'язки "Користувач 1С — Ключ ЕЦП" (можливість авторизації ключами іншого співробітника).
+      </li>
+      <li>Кнопка <strong>"Відкрити в браузері"</strong> — для ініціалізації процесу авторизації.</li>
+      <li>Кнопка <strong>"Перевірити і запам'ятати авторизацію"</strong> — для фіксації успішного входу.</li>
+    </ul>
+
+    <div class="screenshot-container">
+      <div class="screenshot-title">Рисунок 5: Вкладка авторизації УкрСиб з кнопками управління</div>
+      <img src="./Технічне завдання - Інтеграція ОТП Банк_files/ltKGiY8m" alt="Авторизація УкрСиб" style="cursor: zoom-in;" data-height-listener-added="true">
+      <p class="screenshot-description">
+        Вкладка "Авторизація (УКРСІБ)" з кнопкою "Відкрити в браузері" для ініціалізації процесу авторизації та кнопкою "Перевірити і запам'ятати авторизацію з банком УКРСІБ" для збереження облікових даних.
+      </p>
+    </div>
+
+    <h3>4.4. Експорт платежів (1С -&gt; Банк)</h3>
+    <p>Функціонал реалізується на вкладці "Вивантаження з 1С в банк".</p>
+    
+    <div class="screenshot-container">
+      <div class="screenshot-title">Рисунок 6: Вкладка "Вивантаження з 1С в банк" (порожня)</div>
+      <img src="./Технічне завдання - Інтеграція ОТП Банк_files/uY4ipxoe" alt="Вивантаження з 1С в банк" style="cursor: zoom-in;" data-height-listener-added="true">
+      <p class="screenshot-description">
+        Інтерфейс вкладки "Вивантаження з 1С в банк" з фільтрами за періодом (30.01.2026 - 30.01.2026). Кнопки "Заповнити", "Вивантажити дані" та "Вивантажити дані в файл" для роботи з платіжними документами.
+      </p>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Дія</th>
+          <th>Опис логіки</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Заповнення</td>
+          <td>
+            Формування списку документів <span class="code-ref">Списання безготівкових ГК</span>, де вказано відповідне
+            налаштування API. Фільтрація документів, що вже мають ознаку "Вивантажено".
+          </td>
+        </tr>
+        <tr>
+          <td>Вивантаження</td>
+          <td>Відправка сформованого списку в банк через API.</td>
+        </tr>
+        <tr>
+          <td>Пост-обробка</td>
+          <td>
+            Успішно вивантаженим документам встановлюється ознака <strong>"Вивантажено у клієнт-банк"</strong>. Такі
+            документи блокуються для повторного вивантаження.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="screenshot-container">
+      <div class="screenshot-title">Рисунок 7: Документ "Списання безготівкових" з відміткою вивантаження</div>
+      <img src="./Технічне завдання - Інтеграція ОТП Банк_files/ocDWNyIn" alt="Документ списання з відміткою" style="cursor: zoom-in;" data-height-listener-added="true">
+      <p class="screenshot-description">
+        Детальний вигляд документа "Списання безготівкових" з встановленою відміткою "Вивантажено у клієнт-банк". Показані реквізити: номер, дата, сума, тип документа "Платіжне доручення", отримувач та призначення платежу.
+      </p>
+    </div>
+
+    <h3>4.5. Імпорт платежів (Банк -&gt; 1С)</h3>
+    <p>Функціонал реалізується на вкладці "Завантаження з банку в 1С".</p>
+
+    <div class="screenshot-container">
+      <div class="screenshot-title">Рисунок 8: Вкладка "Завантаження з банку в 1С" з фільтрами</div>
+      <img src="./Технічне завдання - Інтеграція ОТП Банк_files/mnqoUvgD" alt="Завантаження з банку в 1С" style="cursor: zoom-in;" data-height-listener-added="true">
+      <p class="screenshot-description">
+        Інтерфейс вкладки "Завантаження з банку в 1С" з вибором банку УкрСиб, фільтрами за періодом та організацією. Кнопки "Додати", "Завантажити дані з банку" та "Створити документ" для обробки платежів.
+      </p>
+    </div>
+
+    <ul>
+      <li>
+        <strong>Фільтри:</strong> Банк, Період. Якщо поля "Організація" та "Рахунок" не заповнені — обробка виконується
+        по всім рахункам, що зазначені як управлінські в налаштуваннях.
+      </li>
+      <li><strong>Завантаження даних:</strong> Отримання списку транзакцій (списання та надходження).</li>
+      <li>
+        <strong>Ідентифікація:</strong>
+        <ul>
+          <li>
+            Якщо документ має ознаку "Вивантажено у клієнт-банк" — система ідентифікує його як існуючий та оновлює дату
+            проведення банком.
+          </li>
+          <li>Якщо документ відсутній — він відображається у фільтрі "Тільки нові документи".</li>
+        </ul>
+      </li>
+      <li><strong>Створення:</strong> По кнопці "Створити документи" формуються платіжні документи в базі 1С.</li>
+    </ul>
+
+    <div class="screenshot-container">
+      <div class="screenshot-title">Рисунок 9: Список завантажених транзакцій з банку з деталями</div>
+      <img src="./Технічне завдання - Інтеграція ОТП Банк_files/8qAz7b4o" alt="Список транзакцій" style="cursor: zoom-in;" data-height-listener-added="true">
+      <p class="screenshot-description">
+        Табличний вигляд завантажених банківських операцій з детальною інформацією: дата створення та надходження, типи операцій (Оплата постачальника), призначення платежів, контрагенти, суми списань. Успішні операції виділені зеленим кольором.
+      </p>
+    </div>
+
+    <h3>4.6. Робота із залишками</h3>
+
+    <h4>Залишки на кінець дня (Регламент)</h4>
+    <p>
+      Створити/налаштувати механізм формування документа
+      <span class="code-ref">Документ.скДенежныеСредстваНаРасчетныхСчетах</span>.
+    </p>
+    <ul>
+      <li>Джерело: API банку (виписки за день).</li>
+      <li>Періодичність: Щоденно (за розкладом).</li>
+      <li>Зміст: Залишки та обороти по кожному розрахунковому рахунку УПР організацій.</li>
+      <li>
+        Регістр: Документ повинен робити рухи по регістру накопичення
+        <span class="code-ref">скДенежныеСредстваНаРасчетныхСчетах</span>.
+      </li>
+    </ul>
+
+    <div class="screenshot-container">
+      <div class="screenshot-title">Рисунок 10: Журнал безготівкових платежів з залишками</div>
+      <img src="./Технічне завдання - Інтеграція ОТП Банк_files/mq00GpL5" alt="Безготівкові платежі" style="cursor: zoom-in;" data-height-listener-added="true">
+      <p class="screenshot-description">
+        Детальний звіт "Безготівкові платежі" з переліком всіх транзакцій, контрагентів, призначення платежів та сум. Внизу показано залишок на рахунку в євро: 719 643,92 EUR. Відображаються фільтри та загальні підсумки.
+      </p>
+    </div>
+
+    <h4>Оперативні залишки</h4>
+    <p>Додати можливість перегляду залишків в реальному часі.</p>
+    <ul>
+      <li>В інтерфейс додати поле <strong>"Залишок на рахунку (банк)"</strong>.</li>
+      <li>
+        Оновлення значення відбувається через запит до API при активності користувача або натисканні кнопки оновлення.
+      </li>
+      <li>Використовувати ключі доступу з налаштувань обробки.</li>
+    </ul>
+
+    <h2>5. Вимоги до інтерфейсу</h2>
+    <p>
+      Інтерфейс повинен бути реалізований в рамках існуючої обробки
+      <span class="code-ref">Обработка.скКлиентБанк</span> без створення нових кореневих об'єктів інтерфейсу, якщо це не
+      вимагається архітектурою.
+    </p>
+    <ul>
+      <li>Зберегти логіку вкладок (Налаштування, Вивантаження, Завантаження).</li>
+      <li>Поля вводу МФО та налаштувань API повинні бути інтуїтивно зрозумілими.</li>
+      <li>Візуалізація статусу авторизації (Авторизовано / Не авторизовано).</li>
+    </ul>
+
+    <h2>6. Вимоги до безпеки</h2>
+    <ul>
+      <li>
+        Ключі ЕЦП та паролі не повинні зберігатися у відкритому вигляді в базі даних 1С, якщо це не передбачено
+        механізмом <span class="code-ref">скДопНастройки</span> у зашифрованому вигляді.
+      </li>
+      <li>Логування помилок з'єднання з API для подальшого аналізу.</li>
+    </ul>
+
+    <h2>7. Регламентні завдання</h2>
+    <p>Необхідно налаштувати або створити наступні регламентні завдання:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Назва завдання</th>
+          <th>Функція</th>
+          <th>Розклад</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>(СОФТКОМ) Авторизація ОТП</td>
+          <td>Щоденна перевірка актуальності токену авторизації.</td>
+          <td>Щоденно</td>
+        </tr>
+        <tr>
+          <td>(СОФТКОМ) Завантаження даних по банківських рахунках</td>
+          <td>Формування документу залишків та оборотів за минулий день.</td>
+          <td>Щоденно (нічний час)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>8. Критерії прийняття робіт</h2>
+    <ol>
+      <li>Успішне проходження авторизації в ОТП Банку через інтерфейс 1С.</li>
+      <li>Коректне вивантаження платіжного доручення з 1С в банк (поява документу в клієнт-банку).</li>
+      <li>Блокування повторного вивантаження документів.</li>
+      <li>Успішне завантаження виписки з банку, коректне розпізнавання існуючих документів та створення нових.</li>
+      <li>
+        Відповідність залишків в 1С (документ <span class="code-ref">скДенежныеСредстваНаРасчетныхСчетах</span>)
+        реальним випискам банку.
+      </li>
+      <li>Відображення актуального оперативного залишку.</li>
+    </ol>
+
+    <h2>9. Терміни виконання</h2>
+    <p>Термін виконання робіт узгоджується окремо після затвердження даного технічного завдання.</p>
+
+  
+
+<script defer="" src="./Технічне завдання - Інтеграція ОТП Банк_files/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon="{&quot;rayId&quot;:&quot;9c89a1823a49bfd7&quot;,&quot;serverTiming&quot;:{&quot;name&quot;:{&quot;cfExtPri&quot;:true,&quot;cfEdge&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfL4&quot;:true,&quot;cfSpeedBrain&quot;:true,&quot;cfCacheStatus&quot;:true}},&quot;version&quot;:&quot;2025.9.1&quot;,&quot;token&quot;:&quot;4edd5f8ec12a48cfa682ab8261b80a79&quot;}" crossorigin="anonymous"></script>
+</body></html>
